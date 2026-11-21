@@ -113,6 +113,9 @@ def telegram_notify(case, cfg, log, dry_run=False):
     enr = case.get("enrichment", {})
     score = enr.get("abuse_confidence_score", "N/A")
     country = enr.get("country_code", "N/A")
+    verdict = str(enr.get("verdict", "N/A")).upper()
+    vt = enr.get("vt_malicious", "N/A")
+    otx = enr.get("otx_pulses", "N/A")
 
     msg = (
         "🚨 *SOC SOAR ALARM*\n"
@@ -122,7 +125,8 @@ def telegram_notify(case, cfg, log, dry_run=False):
         f"*MITRE:* {', '.join(case['rule'].get('mitre', []) or ['-'])}\n"
         f"*Agent:* {case['agent'].get('name')}\n"
         f"*Saldırgan IP:* `{case.get('src_ip') or '-'}`\n"
-        f"*AbuseIPDB:* skor={score} ülke={country}\n"
+        f"*Tehdit Kararı:* {verdict}\n"
+        f"*IOC:* AbuseIPDB={score} · VT_mal={vt} · OTX={otx} · ülke={country}\n"
         f"*Aksiyonlar:* {', '.join(case['actions_taken']) or '-'}"
     )
 
@@ -141,4 +145,53 @@ def telegram_notify(case, cfg, log, dry_run=False):
         return False
     except Exception as e:
         log.error("Telegram isteği hatası: %s", e)
+        return False
+
+
+# ----------------------------------------------------------------------
+# 4) Discord webhook bildirimi (renk kodlu embed, verdict'e göre)
+# ----------------------------------------------------------------------
+def discord_notify(case, cfg, log, dry_run=False):
+    url = cfg.get("discord", {}).get("webhook_url", "")
+    if not url or url == "CHANGE_ME":
+        log.info("Discord webhook tanimli degil, atlandi.")
+        return False
+
+    enr = case.get("enrichment", {})
+    verdict = str(enr.get("verdict", "N/A")).upper()
+    colors = {"MALICIOUS": 0xE01030, "SUSPICIOUS": 0xEA580C,
+              "CLEAN": 0x16A34A, "LAB_INTERNAL": 0x2563EB}
+
+    embed = {
+        "title": "🚨 SOC SOAR ALARM",
+        "description": case["rule"]["description"],
+        "color": colors.get(verdict, 0x64748B),
+        "fields": [
+            {"name": "Vaka", "value": case["case_id"], "inline": False},
+            {"name": "Kural", "value": f"{case['rule']['id']} (seviye {case['rule']['level']})", "inline": True},
+            {"name": "Tehdit Kararı", "value": verdict, "inline": True},
+            {"name": "Saldırgan IP", "value": str(case.get("src_ip") or "-"), "inline": True},
+            {"name": "MITRE", "value": ", ".join(case["rule"].get("mitre", []) or ["-"]), "inline": True},
+            {"name": "Agent", "value": str(case["agent"].get("name")), "inline": True},
+            {"name": "IOC",
+             "value": (f"AbuseIPDB={enr.get('abuse_confidence_score', 'N/A')} · "
+                       f"VT_mal={enr.get('vt_malicious', 'N/A')} · "
+                       f"OTX={enr.get('otx_pulses', 'N/A')}"),
+             "inline": False},
+            {"name": "Aksiyonlar", "value": ", ".join(case["actions_taken"]) or "-", "inline": False},
+        ],
+    }
+
+    if dry_run:
+        log.info("[DRY-RUN] Discord embed (verdict=%s)", verdict)
+        return True
+    try:
+        r = requests.post(url, json={"embeds": [embed]}, timeout=10)
+        if r.status_code in (200, 204):
+            log.info("Discord bildirimi gonderildi.")
+            return True
+        log.error("Discord hatasi (%s): %s", r.status_code, r.text[:200])
+        return False
+    except Exception as e:
+        log.error("Discord istegi hatasi: %s", e)
         return False

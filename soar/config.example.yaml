@@ -28,15 +28,23 @@ actions:
   wazuh_active_response: true
   active_response_command: "firewall-drop0"
   enrich_abuseipdb: false
+  enrich_virustotal: false
+  enrich_otx: false
   notify_telegram: false
+  notify_discord: false
 
 enrichment:
   abuseipdb_api_key: "CHANGE_ME"
   abuseipdb_max_age_days: 90
+  virustotal_api_key: "CHANGE_ME"   # https://www.virustotal.com (ücretsiz API)
+  otx_api_key: "CHANGE_ME"          # https://otx.alienvault.com (ücretsiz API)
 
 telegram:
   bot_token: "CHANGE_ME"
   chat_id: "CHANGE_ME"
+
+discord:
+  webhook_url: "CHANGE_ME"   # Kanal Ayarları -> Integrations -> Webhooks -> New Webhook
 
 output:
   cases_dir: "/var/ossec/integrations/soar/cases"

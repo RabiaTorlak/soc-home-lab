@@ -185,9 +185,10 @@ def main():
             else:
                 seen_ips[srcip] = now
 
-                # 1) IOC zenginleştirme (engellemeden önce bilgi topla)
-                if cfg["actions"].get("enrich_abuseipdb"):
-                    case["enrichment"] = enrichment.abuseipdb_lookup(srcip, cfg, log)
+                # 1) IOC zenginleştirme (çoklu kaynak: AbuseIPDB + VirusTotal + OTX)
+                if any(cfg["actions"].get(k) for k in
+                       ("enrich_abuseipdb", "enrich_virustotal", "enrich_otx")):
+                    case["enrichment"] = enrichment.enrich(srcip, cfg, log)
 
                 # 2) Yerel iptables engelleme
                 if cfg["actions"].get("local_iptables_block"):
@@ -205,10 +206,14 @@ def main():
                     case["actions_taken"].append(
                         f"wazuh_ar:{'ok' if ok else 'fail'}")
 
-        # ---- 4) Telegram bildirimi ----
+        # ---- 4) Bildirimler (Telegram + Discord) ----
         if cfg["actions"].get("notify_telegram"):
             actions.telegram_notify(case, cfg, log, dry_run=args.dry_run)
             case["actions_taken"].append("telegram_notify")
+
+        if cfg["actions"].get("notify_discord"):
+            actions.discord_notify(case, cfg, log, dry_run=args.dry_run)
+            case["actions_taken"].append("discord_notify")
 
         # ---- Vakayı diske yaz ----
         case_path = os.path.join(cfg["output"]["cases_dir"], case["case_id"] + ".json")
