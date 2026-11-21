@@ -1,5 +1,6 @@
 # === Hassas / çalışma zamanı dosyaları — GitHub'a ASLA gitmemeli ===
-soar/config.yaml          # gerçek API şifresi, token, chat_id içerir
+# Gerçek API şifresi, token, chat_id içerir — asla paylaşma:
+soar/config.yaml
 *.log
 soar.log
 
