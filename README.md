@@ -1,10 +1,21 @@
 # 🛡️ SOC Home Lab — SIEM + SOAR Tespit & Müdahale Projesi
 
+![SIEM](https://img.shields.io/badge/SIEM-Wazuh-005C8A)
+![SOAR](https://img.shields.io/badge/SOAR-Python%203-3776AB?logo=python&logoColor=white)
+![Dashboard](https://img.shields.io/badge/Dashboard-Grafana-F46800?logo=grafana&logoColor=white)
+![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-C01030)
+![Blue Team](https://img.shields.io/badge/Blue%20Team-SOC%20Analyst-0A66C2)
+
 Uçtan uca bir **Blue Team / SOC Analyst** ev laboratuvarı: Wazuh SIEM ile tespit,
 Python tabanlı **SOAR** ile otomatik müdahale, MITRE ATT&CK eşleşmeli özel kurallar
 ve örnek olay müdahale (Incident Response) akışı.
 
 ## 🧱 Mimari
+
+![SOC Lab Mimarisi](docs/architecture.svg)
+
+<details>
+<summary>ASCII diyagram (metin)</summary>
 
 ```
                  192.168.222.0/24 (VMware NAT)
@@ -19,6 +30,8 @@ ve örnek olay müdahale (Incident Response) akışı.
   │ Sysmon + Wazuh  │  log/telemetri
   └─────────────────┘
 ```
+
+</details>
 
 ## ⚙️ Bileşenler
 
@@ -46,6 +59,11 @@ ve örnek olay müdahale (Incident Response) akışı.
 |----------|--------|----------|
 | 100101 | T1059.001 | Encoded PowerShell |
 | 100102 | T1082 | System Information Discovery (recon tool) |
+| 100103 | T1003.001 | LSASS Credential Dumping (Mimikatz) |
+| 100104 | T1053.005 | Scheduled Task Persistence |
+| 100105 | T1562.001 | Windows Defender Tampering |
+| 100106 | T1136.001 | New Local Admin Account |
+| 100107 | T1105 | Ingress Tool Transfer (download cradle) |
 | (Wazuh) | T1110 | SSH/RDP Brute-Force |
 | (Wazuh) | T1046 | Network Service Scanning |
 
@@ -64,18 +82,27 @@ sudo python3 soar/soar_responder.py --config soar/config.yaml --dry-run
 ```
 soc-lab-soar/
 ├── README.md
-├── SETUP.md                 # kurulum + çalıştırma adımları
+├── SETUP.md                     # kurulum + çalıştırma adımları
+├── docs/
+│   └── architecture.svg         # mimari diyagramı
 ├── soar/
-│   ├── soar_responder.py    # ana SOAR servisi
-│   ├── actions.py           # engelleme, Active Response, bildirim
-│   ├── enrichment.py        # AbuseIPDB IOC zenginleştirme
-│   ├── config.yaml          # yapılandırma (örnek — gerçek anahtarları koyma!)
+│   ├── soar_responder.py        # ana SOAR servisi
+│   ├── actions.py               # engelleme, Active Response, bildirim
+│   ├── enrichment.py            # AbuseIPDB IOC zenginleştirme
+│   ├── ar_selftest.py           # Wazuh AR otomatik doğrulama
+│   ├── config.example.yaml      # örnek yapılandırma (gerçeğini .gitignore gizler)
 │   ├── requirements.txt
-│   └── soar.service         # systemd servis birimi
+│   ├── soar.service             # systemd servis birimi
+│   └── soar_setup_and_test.sh   # otonom kurulum + canlı test
+├── rules/
+│   └── local_rules.xml          # özel MITRE ATT&CK kuralları (100103-100107)
+├── dashboards/
+│   └── soc-overview.json        # Grafana SOC paneli (9 panel)
 ├── attack-scenarios/
-│   └── kali_attack.sh       # adversary emulation (nmap + hydra)
-├── rules/                   # özel Wazuh/Sigma kuralları (Sprint 4.2)
-└── incident-response/       # örnek IR raporu (Sprint 4.3)
+│   ├── kali_attack.sh           # adversary emulation (nmap + hydra)
+│   └── test_detection_rules.ps1 # kural doğrulama (Windows endpoint)
+└── incident-response/
+    └── IR-report-SSH-BruteForce.md   # örnek olay müdahale raporu
 ```
 
 ## ⚠️ Yasal Uyarı
