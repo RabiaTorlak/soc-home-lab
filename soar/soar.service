@@ -1,0 +1,16 @@
+[Unit]
+Description=SOC Lab Python SOAR Responder
+After=network.target wazuh-manager.service
+Wants=wazuh-manager.service
+
+[Service]
+Type=simple
+WorkingDirectory=/var/ossec/integrations/soar
+ExecStart=/usr/bin/python3 /var/ossec/integrations/soar/soar_responder.py --config /var/ossec/integrations/soar/config.yaml
+Restart=on-failure
+RestartSec=5
+# Not: iptables ve Wazuh AR için root gerekir
+User=root
+
+[Install]
+WantedBy=multi-user.target

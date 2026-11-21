@@ -1,0 +1,24 @@
+# === Hassas / çalışma zamanı dosyaları — GitHub'a ASLA gitmemeli ===
+soar/config.yaml          # gerçek API şifresi, token, chat_id içerir
+*.log
+soar.log
+
+# SOAR çalışma zamanı çıktıları
+cases/
+soar/cases/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Düzenleyici
+.idea/
+.vscode/
+*.swp

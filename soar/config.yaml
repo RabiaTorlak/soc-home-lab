@@ -1,0 +1,58 @@
+# ============================================================
+#  SOC Lab - Python SOAR Yapılandırması
+#  Tüm hassas değerleri (token, API key) buradan yönet.
+#  Bu dosyayı GitHub'a GERÇEK anahtarlarla PUSH ETME!
+#  -> config.example.yaml olarak paylaş, gerçeğini .gitignore'a ekle.
+# ============================================================
+
+wazuh:
+  # Wazuh Manager'ın ürettiği uyarı dosyası (JSON lines formatı)
+  alerts_file: "/var/ossec/logs/alerts/alerts.json"
+
+  # Wazuh API (Active Response tetiklemek ve agent listesi için)
+  api_url: "https://127.0.0.1:55000"
+  api_user: "wazuh-wui"          # kendi API kullanıcın
+  api_password: "CHANGE_ME"       # <-- kendi şifren
+  verify_ssl: false               # self-signed sertifika için false
+
+# Hangi uyarılarda aksiyon alınsın?
+triggers:
+  min_level: 7                    # bu seviye ve üstü işlenir
+  # Belirli kurallar her zaman tetiklesin (seviyeden bağımsız):
+  always_rule_ids:
+    - "100101"                    # Encoded PowerShell (T1059.001)
+    - "100102"                    # Recon Tool (T1082)
+  # Bu IP'ler asla engellenmesin (kendi altyapın!)
+  whitelist_ips:
+    - "192.168.222.130"           # SOC sunucusu
+    - "192.168.222.1"             # NAT gateway
+    - "127.0.0.1"
+
+actions:
+  # 1) SOC sunucusunda yerel iptables ile engelle
+  local_iptables_block: true
+  block_duration_minutes: 60      # 0 = kalıcı
+
+  # 2) Wazuh API üzerinden saldırıya uğrayan agent'ta firewall-drop çalıştır
+  #    (ör. Windows endpoint'te netsh ile saldırgan IP'yi bloke eder)
+  wazuh_active_response: true
+  active_response_command: "firewall-drop0"   # Wazuh'ta tanımlı AR komutu
+
+  # 3) IOC zenginleştirme
+  enrich_abuseipdb: true
+
+  # 4) Bildirim (Telegram)
+  notify_telegram: true
+
+enrichment:
+  abuseipdb_api_key: "CHANGE_ME"  # https://www.abuseipdb.com (ücretsiz)
+  abuseipdb_max_age_days: 90
+
+telegram:
+  bot_token: "CHANGE_ME"          # @BotFather'dan al
+  chat_id: "CHANGE_ME"            # kendi chat id'in
+
+output:
+  # Her olay için otomatik vaka (case) kaydı
+  cases_dir: "/var/ossec/integrations/soar/cases"
+  log_file: "/var/ossec/integrations/soar/soar.log"

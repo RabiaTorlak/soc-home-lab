@@ -1,0 +1,43 @@
+# ============================================================
+#  SOC Lab - Python SOAR Yapılandırması (ÖRNEK)
+#  Bu dosyayı kopyalayıp config.yaml yap ve CHANGE_ME alanlarını doldur:
+#     cp config.example.yaml config.yaml
+#  GERÇEK config.yaml .gitignore ile hariç tutulur — anahtarları paylaşma!
+# ============================================================
+
+wazuh:
+  alerts_file: "/var/ossec/logs/alerts/alerts.json"
+  api_url: "https://127.0.0.1:55000"
+  api_user: "wazuh-wui"
+  api_password: "CHANGE_ME"
+  verify_ssl: false
+
+triggers:
+  min_level: 7
+  always_rule_ids:
+    - "100101"
+    - "100102"
+  whitelist_ips:
+    - "192.168.222.130"
+    - "192.168.222.1"
+    - "127.0.0.1"
+
+actions:
+  local_iptables_block: true
+  block_duration_minutes: 60
+  wazuh_active_response: true
+  active_response_command: "firewall-drop0"
+  enrich_abuseipdb: false
+  notify_telegram: false
+
+enrichment:
+  abuseipdb_api_key: "CHANGE_ME"
+  abuseipdb_max_age_days: 90
+
+telegram:
+  bot_token: "CHANGE_ME"
+  chat_id: "CHANGE_ME"
+
+output:
+  cases_dir: "/var/ossec/integrations/soar/cases"
+  log_file: "/var/ossec/integrations/soar/soar.log"
