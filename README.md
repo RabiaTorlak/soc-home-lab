@@ -48,16 +48,16 @@ ve örnek olay müdahale (Incident Response) akışı.
 
 ## 📸 Görseller & Ekran Görüntüleri
 
-**Tespit Kapsama Haritası** (kurallardan otomatik üretilir):
+**SOC Overview Dashboard** — canlı Wazuh indexer verisiyle (619 alarm, 16 kritik, 21 MITRE tekniği):
+
+![Grafana SOC Overview](docs/screenshots/grafana-overview.png)
+
+**Tespit Kapsama Haritası** — kurallardan otomatik üretilir:
 
 ![Tespit Kapsama Haritası](docs/coverage-matrix.svg)
 
-> Canlı sistem görüntüleri (Grafana dashboard, SOAR terminali) kendi SOC sunucunda çalışır.
-> Kendi lab'ından alıp `docs/screenshots/` altına şu adlarla ekle, otomatik burada görünür:
-
-| SOC Overview Dashboard | SOAR — Canlı Otomatik Engelleme |
-|:---:|:---:|
-| ![Grafana SOC Overview](docs/screenshots/grafana-overview.png) | ![SOAR canli engelleme](docs/screenshots/soar-live-block.png) |
+> İstersen SOAR'ın canlı engelleme log'unu da ekleyebilirsin: `soar.log` görüntüsünü
+> `docs/screenshots/soar-live-block.png` adıyla kaydet (bkz. [docs/screenshots/](docs/screenshots/)).
 
 ## ⚙️ Bileşenler
 
