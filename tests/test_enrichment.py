@@ -21,6 +21,12 @@ def test_verdict_thresholds():
     assert e._verdict(0, 0, 5) == "malicious"
 
 
+def test_verdict_greynoise():
+    assert e._verdict(0, 0, 0, "malicious") == "malicious"
+    assert e._verdict(0, 0, 0, "benign") == "clean"
+    assert e._verdict(0, 0, 0, "unknown") == "clean"
+
+
 def test_enrich_private_ip_is_lab():
     cfg = {"enrichment": {}, "actions": {}}
     r = e.enrich("192.168.222.128", cfg, log)

@@ -6,6 +6,7 @@
 ![Dashboard](https://img.shields.io/badge/Dashboard-Grafana-F46800?logo=grafana&logoColor=white)
 ![MITRE ATT&CK](https://img.shields.io/badge/MITRE-ATT%26CK-C01030)
 ![Blue Team](https://img.shields.io/badge/Blue%20Team-SOC%20Analyst-0A66C2)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 Uçtan uca bir **Blue Team / SOC Analyst** ev laboratuvarı: Wazuh SIEM ile tespit,
 Python tabanlı **SOAR** ile otomatik müdahale, MITRE ATT&CK eşleşmeli özel kurallar
@@ -101,7 +102,8 @@ soc-lab-soar/
 ├── soar/
 │   ├── soar_responder.py        # ana SOAR servisi
 │   ├── actions.py               # engelleme, Active Response, bildirim
-│   ├── enrichment.py            # IOC zenginleştirme (AbuseIPDB + VirusTotal + OTX + verdict)
+│   ├── enrichment.py            # IOC zenginleştirme (AbuseIPDB/VT/OTX/Shodan/GreyNoise + verdict)
+│   ├── Dockerfile               # SOAR konteyner imajı
 │   ├── ar_selftest.py           # Wazuh AR otomatik doğrulama
 │   ├── generate_ir_report.py    # vakalardan otomatik IR raporu üretir
 │   ├── config.example.yaml      # örnek yapılandırma (gerçeğini .gitignore gizler)
@@ -111,8 +113,10 @@ soc-lab-soar/
 ├── rules/
 │   ├── local_rules.xml          # özel MITRE ATT&CK kuralları (100103-100112)
 │   └── sigma/                   # Sigma karşılıkları (detection-as-code)
+├── docker-compose.yml           # SOAR'ı konteyner olarak çalıştırma (systemd'ye alternatif)
 ├── dashboards/
-│   └── soc-overview.json        # Grafana SOC paneli (9 panel)
+│   ├── soc-overview.json        # Grafana SOC paneli (9 panel)
+│   └── soc-threat-map.json      # taktik kırılımı + coğrafi harita
 ├── attack-scenarios/
 │   ├── kali_attack.sh           # adversary emulation (nmap + hydra)
 │   └── test_detection_rules.ps1 # kural doğrulama (Windows endpoint)

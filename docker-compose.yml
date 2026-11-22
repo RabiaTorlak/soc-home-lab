@@ -1,0 +1,26 @@
+# SOC Lab - Python SOAR (konteyner dağıtımı - systemd'ye alternatif)
+#
+# SOAR'ın alerts.json'ı okuması ve iptables ile engelleme yapabilmesi için
+# host ağı ve NET_ADMIN yeteneği gerekir. SOC sunucusunda çalıştır:
+#   docker compose up -d --build
+#
+services:
+  soar:
+    build: ./soar
+    container_name: soc-soar
+    restart: unless-stopped
+    network_mode: host          # alerts.json akışı + host iptables erişimi
+    cap_add:
+      - NET_ADMIN               # iptables DROP kuralları için
+    volumes:
+      - /var/ossec/logs/alerts/alerts.json:/var/ossec/logs/alerts/alerts.json:ro
+      - ./soar/config.yaml:/app/config.yaml:ro
+      - soar-data:/var/ossec/integrations/soar
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "soar_responder.py"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  soar-data:

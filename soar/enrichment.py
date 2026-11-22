@@ -103,10 +103,63 @@ def otx_lookup(ip, cfg, log):
 
 
 # ----------------------------------------------------------------------
+# Shodan (açık port / servis / zafiyet bilgisi)
+# ----------------------------------------------------------------------
+def shodan_lookup(ip, cfg, log):
+    key = cfg["enrichment"].get("shodan_api_key", "")
+    if not key or key == "CHANGE_ME":
+        return {"note": "no_api_key"}
+    if _is_private(ip):
+        return {"note": "private_ip_lab", "shodan_ports": []}
+    try:
+        r = requests.get(f"https://api.shodan.io/shodan/host/{ip}",
+                         params={"key": key}, timeout=15)
+        if r.status_code == 404:
+            return {"shodan_ports": [], "note": "not_found"}
+        r.raise_for_status()
+        d = r.json()
+        return {
+            "shodan_ports": d.get("ports", []),
+            "shodan_org": d.get("org"),
+            "shodan_os": d.get("os"),
+            "shodan_vulns": list(d.get("vulns", []))[:10],
+        }
+    except Exception as e:
+        log.error("Shodan sorgu hatasi (%s): %s", ip, e)
+        return {"note": "lookup_failed"}
+
+
+# ----------------------------------------------------------------------
+# GreyNoise (Community API — benign / malicious sınıflandırması)
+# ----------------------------------------------------------------------
+def greynoise_lookup(ip, cfg, log):
+    key = cfg["enrichment"].get("greynoise_api_key", "")
+    if not key or key == "CHANGE_ME":
+        return {"note": "no_api_key"}
+    if _is_private(ip):
+        return {"note": "private_ip_lab", "greynoise_classification": "unknown"}
+    try:
+        r = requests.get(f"https://api.greynoise.io/v3/community/{ip}",
+                         headers={"key": key}, timeout=15)
+        if r.status_code == 404:
+            return {"greynoise_classification": "unknown", "note": "not_observed"}
+        r.raise_for_status()
+        d = r.json()
+        return {
+            "greynoise_classification": d.get("classification", "unknown"),
+            "greynoise_name": d.get("name"),
+            "greynoise_noise": d.get("noise"),
+        }
+    except Exception as e:
+        log.error("GreyNoise sorgu hatasi (%s): %s", ip, e)
+        return {"note": "lookup_failed"}
+
+
+# ----------------------------------------------------------------------
 # Birleştirici + tehdit kararı
 # ----------------------------------------------------------------------
-def _verdict(abuse_score, vt_mal, otx_pulses):
-    if abuse_score >= 75 or vt_mal >= 3 or otx_pulses >= 5:
+def _verdict(abuse_score, vt_mal, otx_pulses, gn_class="unknown"):
+    if gn_class == "malicious" or abuse_score >= 75 or vt_mal >= 3 or otx_pulses >= 5:
         return "malicious"
     if abuse_score >= 25 or vt_mal >= 1 or otx_pulses >= 1:
         return "suspicious"
@@ -125,15 +178,20 @@ def enrich(ip, cfg, log):
         sources["virustotal"] = virustotal_lookup(ip, cfg, log)
     if a.get("enrich_otx"):
         sources["otx"] = otx_lookup(ip, cfg, log)
+    if a.get("enrich_shodan"):
+        sources["shodan"] = shodan_lookup(ip, cfg, log)
+    if a.get("enrich_greynoise"):
+        sources["greynoise"] = greynoise_lookup(ip, cfg, log)
 
     abuse_score = int(sources.get("abuseipdb", {}).get("abuse_confidence_score") or 0)
     vt_mal = int(sources.get("virustotal", {}).get("vt_malicious") or 0)
     otx_pulses = int(sources.get("otx", {}).get("otx_pulses") or 0)
+    gn_class = sources.get("greynoise", {}).get("greynoise_classification", "unknown")
 
     if _is_private(ip):
         verdict = "lab_internal"
     else:
-        verdict = _verdict(abuse_score, vt_mal, otx_pulses)
+        verdict = _verdict(abuse_score, vt_mal, otx_pulses, gn_class)
 
     result = {
         "ip": ip,
@@ -141,9 +199,11 @@ def enrich(ip, cfg, log):
         "abuse_confidence_score": abuse_score,
         "vt_malicious": vt_mal,
         "otx_pulses": otx_pulses,
+        "greynoise_classification": gn_class,
+        "shodan_ports": sources.get("shodan", {}).get("shodan_ports", []),
         "country_code": sources.get("abuseipdb", {}).get("country_code"),
         "sources": sources,
     }
-    log.info("Enrichment %s -> verdict=%s (abuse=%s vt=%s otx=%s)",
-             ip, verdict, abuse_score, vt_mal, otx_pulses)
+    log.info("Enrichment %s -> verdict=%s (abuse=%s vt=%s otx=%s gn=%s)",
+             ip, verdict, abuse_score, vt_mal, otx_pulses, gn_class)
     return result
