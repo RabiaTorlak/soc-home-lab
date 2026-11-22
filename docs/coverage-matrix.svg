@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 252" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <text x="460" y="26" text-anchor="middle" font-size="18" font-weight="700" fill="#64748b">Tespit Kapsama Haritası — MITRE ATT&amp;CK (15 teknik / 7 taktik)</text>
+
+  <!-- Execution -->
+  <rect x="16" y="46" width="122" height="34" rx="5" fill="#334155"/>
+  <text x="77" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Execution</text>
+  <rect x="16" y="86" width="122" height="32" rx="4" fill="#dc2626"/>
+  <text x="77" y="106" text-anchor="middle" font-size="11" fill="#ffffff">T1059.001</text>
+
+  <!-- Persistence -->
+  <rect x="143" y="46" width="122" height="34" rx="5" fill="#334155"/>
+  <text x="204" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Persistence</text>
+  <rect x="143" y="86" width="122" height="32" rx="4" fill="#ef4444"/>
+  <text x="204" y="106" text-anchor="middle" font-size="11" fill="#ffffff">T1053.005</text>
+  <rect x="143" y="123" width="122" height="32" rx="4" fill="#dc2626"/>
+  <text x="204" y="143" text-anchor="middle" font-size="11" fill="#ffffff">T1547.001</text>
+  <rect x="143" y="160" width="122" height="32" rx="4" fill="#dc2626"/>
+  <text x="204" y="180" text-anchor="middle" font-size="11" fill="#ffffff">T1136.001</text>
+  <rect x="143" y="197" width="122" height="32" rx="4" fill="#dc2626"/>
+  <text x="204" y="217" text-anchor="middle" font-size="11" fill="#ffffff">T1098</text>
+
+  <!-- Defense Evasion -->
+  <rect x="270" y="46" width="122" height="34" rx="5" fill="#334155"/>
+  <text x="331" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Defense Evasion</text>
+  <rect x="270" y="86" width="122" height="32" rx="4" fill="#dc2626"/>
+  <text x="331" y="106" text-anchor="middle" font-size="11" fill="#ffffff">T1562.001</text>
+  <rect x="270" y="123" width="122" height="32" rx="4" fill="#b91c1c"/>
+  <text x="331" y="143" text-anchor="middle" font-size="11" fill="#ffffff">T1070.001</text>
+
+  <!-- Credential Access -->
+  <rect x="397" y="46" width="122" height="34" rx="5" fill="#334155"/>
+  <text x="458" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Cred. Access</text>
+  <rect x="397" y="86" width="122" height="32" rx="4" fill="#ef4444"/>
+  <text x="458" y="106" text-anchor="middle" font-size="11" fill="#ffffff">T1110</text>
+  <rect x="397" y="123" width="122" height="32" rx="4" fill="#dc2626"/>
+  <text x="458" y="143" text-anchor="middle" font-size="11" fill="#ffffff">T1003.001</text>
+
+  <!-- Discovery -->
+  <rect x="524" y="46" width="122" height="34" rx="5" fill="#334155"/>
+  <text x="585" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Discovery</text>
+  <rect x="524" y="86" width="122" height="32" rx="4" fill="#ef4444"/>
+  <text x="585" y="106" text-anchor="middle" font-size="11" fill="#ffffff">T1082</text>
+  <rect x="524" y="123" width="122" height="32" rx="4" fill="#ef4444"/>
+  <text x="585" y="143" text-anchor="middle" font-size="11" fill="#ffffff">T1046</text>
+  <rect x="524" y="160" width="122" height="32" rx="4" fill="#f87171"/>
+  <text x="585" y="180" text-anchor="middle" font-size="11" fill="#ffffff">T1018</text>
+  <rect x="524" y="197" width="122" height="32" rx="4" fill="#fca5a5"/>
+  <text x="585" y="217" text-anchor="middle" font-size="11" fill="#7f1d1d">T1016</text>
+
+  <!-- Lateral Movement -->
+  <rect x="651" y="46" width="122" height="34" rx="5" fill="#334155"/>
+  <text x="712" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">Lateral Mov.</text>
+  <rect x="651" y="86" width="122" height="32" rx="4" fill="#ef4444"/>
+  <text x="712" y="106" text-anchor="middle" font-size="11" fill="#ffffff">T1021.001</text>
+
+  <!-- Command and Control -->
+  <rect x="778" y="46" width="122" height="34" rx="5" fill="#334155"/>
+  <text x="839" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">C2</text>
+  <rect x="778" y="86" width="122" height="32" rx="4" fill="#dc2626"/>
+  <text x="839" y="106" text-anchor="middle" font-size="11" fill="#ffffff">T1105</text>
+
+  <!-- legend -->
+  <text x="16" y="245" font-size="10" fill="#64748b">Renk = Wazuh kural seviyesi (açık → koyu = düşük → yüksek). Otomatik üretim: generate_attack_navigator.py</text>
+</svg>

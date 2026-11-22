@@ -5,10 +5,11 @@ Kendi lab ortamından alıp bu klasöre **tam olarak** şu adlarla kaydet:
 
 | Dosya adı | İçerik |
 |-----------|--------|
-| `grafana-overview.png` | Grafana **SOC Overview** dashboard (dolu paneller) |
-| `attack-navigator.png` | ATT&CK Navigator'da yüklü kapsama haritası (renkli matris) |
+| `grafana-overview.png` | Grafana **SOC Overview** dashboard (dolu paneller) — *bu sende zaten var* |
 | `soar-live-block.png` | `soar.log` veya terminal — canlı `ENGELLENDI` satırları |
-| `ir-report.png` | `generate_ir_report.py` çıktısı (üretilen IR raporu) |
+
+> Not: ATT&CK kapsama haritası ekran görüntüsü gerektirmez — `docs/coverage-matrix.svg`
+> olarak otomatik üretilir ve README'de vektör olarak gösterilir.
 
 ## Nasıl eklenir
 

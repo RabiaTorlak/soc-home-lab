@@ -46,15 +46,18 @@ ve örnek olay müdahale (Incident Response) akışı.
 
 </details>
 
-## 📸 Ekran Görüntüleri
+## 📸 Görseller & Ekran Görüntüleri
 
-> Kendi lab ortamından aldığın görüntüleri `docs/screenshots/` klasörüne aşağıdaki adlarla eklediğinde burada görünür.
+**Tespit Kapsama Haritası** (kurallardan otomatik üretilir):
 
-| SOC Overview Dashboard | ATT&CK Navigator Kapsamı |
+![Tespit Kapsama Haritası](docs/coverage-matrix.svg)
+
+> Canlı sistem görüntüleri (Grafana dashboard, SOAR terminali) kendi SOC sunucunda çalışır.
+> Kendi lab'ından alıp `docs/screenshots/` altına şu adlarla ekle, otomatik burada görünür:
+
+| SOC Overview Dashboard | SOAR — Canlı Otomatik Engelleme |
 |:---:|:---:|
-| ![Grafana SOC Overview](docs/screenshots/grafana-overview.png) | ![ATT&CK Navigator](docs/screenshots/attack-navigator.png) |
-| **SOAR — Canlı Otomatik Engelleme** | **Otomatik IR Raporu** |
-| ![SOAR canli engelleme](docs/screenshots/soar-live-block.png) | ![IR raporu](docs/screenshots/ir-report.png) |
+| ![Grafana SOC Overview](docs/screenshots/grafana-overview.png) | ![SOAR canli engelleme](docs/screenshots/soar-live-block.png) |
 
 ## ⚙️ Bileşenler
 
