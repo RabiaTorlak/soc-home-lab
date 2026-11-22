@@ -48,6 +48,10 @@ ve örnek olay müdahale (Incident Response) akışı.
 
 ## 📸 Görseller & Ekran Görüntüleri
 
+**Saldırı Emülasyonu** — Kali'den SSH brute-force (SOAR'ı ve Wazuh kurallarını tetikler):
+
+![Kali SSH brute-force](docs/screenshots/kali-attack.png)
+
 **SOC Overview Dashboard** — canlı Wazuh indexer verisiyle (619 alarm, 16 kritik, 21 MITRE tekniği):
 
 ![Grafana SOC Overview](docs/screenshots/grafana-overview.png)
