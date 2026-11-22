@@ -12,6 +12,17 @@ Uçtan uca bir **Blue Team / SOC Analyst** ev laboratuvarı: Wazuh SIEM ile tesp
 Python tabanlı **SOAR** ile otomatik müdahale, MITRE ATT&CK eşleşmeli özel kurallar
 ve örnek olay müdahale (Incident Response) akışı.
 
+## ✨ Öne Çıkanlar
+
+- 🔴 **Gerçek saldırı → otomatik engelleme:** Kali brute-force'u saniyeler içinde `iptables` + Wazuh Active Response ile bloke
+- 🧠 **5 kaynaklı IOC zenginleştirme** (AbuseIPDB · VirusTotal · OTX · Shodan · GreyNoise) + otomatik **tehdit kararı** (clean / suspicious / malicious)
+- 🎯 **12 özel MITRE ATT&CK kuralı** + **Sigma** detection-as-code
+- 📊 **2 canlı Grafana dashboard** + **ATT&CK Navigator** kapsama haritası (15 teknik)
+- 📄 Olaylardan **otomatik Incident Response raporu** üretimi
+- 🔔 **Telegram & Discord** bildirimleri (renk kodlu, verdict'li)
+- 🐳 **Docker** + ⚙️ **systemd** dağıtımı
+- ✅ **GitHub Actions CI:** lint + 15 birim test + XML/YAML/JSON doğrulama
+
 ## 🧱 Mimari
 
 ![SOC Lab Mimarisi](docs/architecture.svg)
@@ -34,6 +45,16 @@ ve örnek olay müdahale (Incident Response) akışı.
 ```
 
 </details>
+
+## 📸 Ekran Görüntüleri
+
+> Kendi lab ortamından aldığın görüntüleri `docs/screenshots/` klasörüne aşağıdaki adlarla eklediğinde burada görünür.
+
+| SOC Overview Dashboard | ATT&CK Navigator Kapsamı |
+|:---:|:---:|
+| ![Grafana SOC Overview](docs/screenshots/grafana-overview.png) | ![ATT&CK Navigator](docs/screenshots/attack-navigator.png) |
+| **SOAR — Canlı Otomatik Engelleme** | **Otomatik IR Raporu** |
+| ![SOAR canli engelleme](docs/screenshots/soar-live-block.png) | ![IR raporu](docs/screenshots/ir-report.png) |
 
 ## ⚙️ Bileşenler
 
