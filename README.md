@@ -116,6 +116,8 @@ soc-lab-soar/
 ├── attack-scenarios/
 │   ├── kali_attack.sh           # adversary emulation (nmap + hydra)
 │   └── test_detection_rules.ps1 # kural doğrulama (Windows endpoint)
+├── tests/                       # pytest birim testleri (CI'da çalışır)
+├── .github/workflows/ci.yml     # GitHub Actions CI (lint + test + doğrulama)
 └── incident-response/
     └── IR-report-SSH-BruteForce.md   # örnek olay müdahale raporu
 ```

@@ -20,7 +20,7 @@ jobs:
           python-version: "3.12"
 
       - name: Araçları yükle
-        run: pip install flake8 pyyaml
+        run: pip install flake8 pyyaml requests pytest
 
       - name: Python sözdizimi (py_compile)
         run: python -m py_compile soar/*.py
@@ -53,3 +53,6 @@ jobs:
               json.load(open(f, encoding="utf-8"))
               print(f"{f}: gecerli JSON")
           PY
+
+      - name: Birim testleri (pytest)
+        run: pytest -q
