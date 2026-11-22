@@ -17,6 +17,24 @@
       "enabled": true
     },
     {
+      "techniqueID": "T1016",
+      "score": 6,
+      "comment": "100112 — Discovery: System Network Configuration Discovery [T1016]",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1018",
+      "score": 8,
+      "comment": "100110 — Discovery: Remote System Discovery (net view / nltest) [T1018]",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1021.001",
+      "score": 10,
+      "comment": "100111 — Lateral Movement: RDP etkinlestirildi (fDenyTSConnections=0) [T1021.001]",
+      "enabled": true
+    },
+    {
       "techniqueID": "T1046",
       "score": 10,
       "comment": "Wazuh — Network Service Scanning",
@@ -32,6 +50,12 @@
       "techniqueID": "T1059.001",
       "score": 12,
       "comment": "100107 — Ingress Tool Transfer: PowerShell/certutil ile uzaktan yuk indirme girisimi [T1105] | 100101 — Encoded PowerShell",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1070.001",
+      "score": 13,
+      "comment": "100109 — Defense Evasion: Windows olay gunlukleri temizlendi [T1070.001]",
       "enabled": true
     },
     {
@@ -65,6 +89,12 @@
       "enabled": true
     },
     {
+      "techniqueID": "T1547.001",
+      "score": 12,
+      "comment": "100108 — Persistence: Registry Run Key eklendi (reg add) [T1547.001]",
+      "enabled": true
+    },
+    {
       "techniqueID": "T1562.001",
       "score": 12,
       "comment": "100105 — Defense Evasion: Windows Defender devre disi birakildi / kurcalandi [T1562.001]",
@@ -78,7 +108,7 @@
       "#a50f15"
     ],
     "minValue": 1,
-    "maxValue": 12
+    "maxValue": 13
   },
   "legendItems": [
     {

@@ -69,4 +69,59 @@
     <group>execution,command_and_control,</group>
   </rule>
 
+  <!-- 100108 - Persistence: Registry Run Key (reg add ...\Run) -->
+  <rule id="100108" level="12">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)reg(\.exe)?\s+add\s+.*\\(CurrentVersion\\Run|RunOnce)</field>
+    <description>Persistence: Registry Run Key eklendi (reg add) [T1547.001]</description>
+    <mitre>
+      <id>T1547.001</id>
+    </mitre>
+    <group>persistence,</group>
+  </rule>
+
+  <!-- 100109 - Defense Evasion: Windows olay günlüklerini temizleme -->
+  <rule id="100109" level="13">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(wevtutil\s+(cl|clear-log)|Clear-EventLog)</field>
+    <description>Defense Evasion: Windows olay gunlukleri temizlendi [T1070.001]</description>
+    <mitre>
+      <id>T1070.001</id>
+    </mitre>
+    <group>defense_evasion,</group>
+  </rule>
+
+  <!-- 100110 - Discovery: Remote System Discovery (net view / nltest) -->
+  <rule id="100110" level="8">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(net\d?\s+view|nltest\s+/dclist|net\d?\s+group\s+"?domain computers"?)</field>
+    <description>Discovery: Remote System Discovery (net view / nltest) [T1018]</description>
+    <mitre>
+      <id>T1018</id>
+    </mitre>
+    <group>discovery,</group>
+  </rule>
+
+  <!-- 100111 - Lateral Movement: RDP etkinleştirme (fDenyTSConnections=0) -->
+  <rule id="100111" level="10">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)reg(\.exe)?\s+add\s+.*fDenyTSConnections.*\s0\b</field>
+    <description>Lateral Movement: RDP etkinlestirildi (fDenyTSConnections=0) [T1021.001]</description>
+    <mitre>
+      <id>T1021.001</id>
+    </mitre>
+    <group>lateral_movement,</group>
+  </rule>
+
+  <!-- 100112 - Discovery: System Network Configuration Discovery -->
+  <rule id="100112" level="6">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(ipconfig\s+/all|arp\s+-a|route\s+print|netsh\s+interface\s+show)</field>
+    <description>Discovery: System Network Configuration Discovery [T1016]</description>
+    <mitre>
+      <id>T1016</id>
+    </mitre>
+    <group>discovery,</group>
+  </rule>
+
 </group>

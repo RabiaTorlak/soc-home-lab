@@ -1,0 +1,25 @@
+title: System Network Configuration Discovery
+id: 2e6f8a14-7b66-4d02-9c3b-4d7a0f55b112
+status: experimental
+description: ipconfig /all, arp -a, route print, netsh ile ağ yapılandırması keşfini tespit eder.
+author: RabiaTorlak
+date: 2026/11/22
+references:
+  - https://attack.mitre.org/techniques/T1016/
+tags:
+  - attack.discovery
+  - attack.t1016
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains:
+      - 'ipconfig /all'
+      - 'arp -a'
+      - 'route print'
+      - 'netsh interface show'
+  condition: selection
+falsepositives:
+  - Rutin ağ sorun giderme
+level: low

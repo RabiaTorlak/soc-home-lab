@@ -36,12 +36,13 @@ jobs:
           print("rules/local_rules.xml: gecerli XML")
           PY
 
-      - name: YAML yapılandırmasını doğrula
+      - name: YAML doğrula (config + Sigma kuralları)
         run: |
           python - <<'PY'
-          import yaml
-          yaml.safe_load(open("soar/config.example.yaml"))
-          print("config.example.yaml: gecerli YAML")
+          import yaml, glob
+          for f in ["soar/config.example.yaml"] + sorted(glob.glob("rules/sigma/*.yml")):
+              yaml.safe_load(open(f, encoding="utf-8"))
+              print(f"{f}: gecerli YAML")
           PY
 
       - name: JSON dosyalarını doğrula (dashboard + navigator)

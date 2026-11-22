@@ -1,0 +1,24 @@
+title: RDP Etkinleştirme (fDenyTSConnections=0)
+id: 9b4c1f03-2d55-4c19-8a7e-1c5f0e44b111
+status: experimental
+description: Registry üzerinden RDP'nin açılmasını (fDenyTSConnections=0) tespit eder; yanal hareket hazırlığı.
+author: RabiaTorlak
+date: 2026/11/22
+references:
+  - https://attack.mitre.org/techniques/T1021/001/
+tags:
+  - attack.lateral_movement
+  - attack.t1021.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: '\reg.exe'
+    CommandLine|contains|all:
+      - 'fDenyTSConnections'
+      - ' 0'
+  condition: selection
+falsepositives:
+  - Yönetici tarafından RDP'nin bilinçli açılması
+level: high

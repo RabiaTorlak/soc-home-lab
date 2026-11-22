@@ -65,8 +65,15 @@ ve örnek olay müdahale (Incident Response) akışı.
 | 100105 | T1562.001 | Windows Defender Tampering |
 | 100106 | T1136.001 | New Local Admin Account |
 | 100107 | T1105 | Ingress Tool Transfer (download cradle) |
+| 100108 | T1547.001 | Registry Run Key Persistence |
+| 100109 | T1070.001 | Clear Windows Event Logs |
+| 100110 | T1018 | Remote System Discovery |
+| 100111 | T1021.001 | RDP Enable (Lateral Movement) |
+| 100112 | T1016 | Network Config Discovery |
 | (Wazuh) | T1110 | SSH/RDP Brute-Force |
 | (Wazuh) | T1046 | Network Service Scanning |
+
+**Detection-as-code:** Aynı tespitlerin taşınabilir [Sigma](https://sigmahq.io/) karşılıkları [`rules/sigma/`](rules/sigma/) altındadır.
 
 > 🗺️ **Kapsama haritası:** [`docs/attack-navigator-layer.json`](docs/attack-navigator-layer.json) dosyasını [MITRE ATT&CK Navigator](https://mitre-attack.github.io/attack-navigator/) → *Open Existing Layer → Upload from local* ile yükleyip tespit kapsamını renkli matriste gör. ([`generate_attack_navigator.py`](soar/generate_attack_navigator.py) kurallardan otomatik üretir.)
 
@@ -102,7 +109,8 @@ soc-lab-soar/
 │   ├── soar.service             # systemd servis birimi
 │   └── soar_setup_and_test.sh   # otonom kurulum + canlı test
 ├── rules/
-│   └── local_rules.xml          # özel MITRE ATT&CK kuralları (100103-100107)
+│   ├── local_rules.xml          # özel MITRE ATT&CK kuralları (100103-100112)
+│   └── sigma/                   # Sigma karşılıkları (detection-as-code)
 ├── dashboards/
 │   └── soc-overview.json        # Grafana SOC paneli (9 panel)
 ├── attack-scenarios/
