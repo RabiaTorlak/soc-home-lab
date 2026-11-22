@@ -1,5 +1,6 @@
 # 🛡️ SOC Home Lab — SIEM + SOAR Tespit & Müdahale Projesi
 
+![CI](https://github.com/RabiaTorlak/soc-home-lab/actions/workflows/ci.yml/badge.svg)
 ![SIEM](https://img.shields.io/badge/SIEM-Wazuh-005C8A)
 ![SOAR](https://img.shields.io/badge/SOAR-Python%203-3776AB?logo=python&logoColor=white)
 ![Dashboard](https://img.shields.io/badge/Dashboard-Grafana-F46800?logo=grafana&logoColor=white)
@@ -67,6 +68,8 @@ ve örnek olay müdahale (Incident Response) akışı.
 | (Wazuh) | T1110 | SSH/RDP Brute-Force |
 | (Wazuh) | T1046 | Network Service Scanning |
 
+> 🗺️ **Kapsama haritası:** [`docs/attack-navigator-layer.json`](docs/attack-navigator-layer.json) dosyasını [MITRE ATT&CK Navigator](https://mitre-attack.github.io/attack-navigator/) → *Open Existing Layer → Upload from local* ile yükleyip tespit kapsamını renkli matriste gör. ([`generate_attack_navigator.py`](soar/generate_attack_navigator.py) kurallardan otomatik üretir.)
+
 ## 🚀 Hızlı Başlangıç
 
 Ayrıntılı adımlar için **[SETUP.md](SETUP.md)**.
@@ -75,6 +78,9 @@ Ayrıntılı adımlar için **[SETUP.md](SETUP.md)**.
 # SOC sunucusunda
 sudo pip3 install -r soar/requirements.txt
 sudo python3 soar/soar_responder.py --config soar/config.yaml --dry-run
+
+# Olaylardan otomatik Incident Response raporu üret
+sudo python3 soar/generate_ir_report.py -o ir-report.md
 ```
 
 ## 📁 Repo Yapısı
@@ -88,8 +94,9 @@ soc-lab-soar/
 ├── soar/
 │   ├── soar_responder.py        # ana SOAR servisi
 │   ├── actions.py               # engelleme, Active Response, bildirim
-│   ├── enrichment.py            # AbuseIPDB IOC zenginleştirme
+│   ├── enrichment.py            # IOC zenginleştirme (AbuseIPDB + VirusTotal + OTX + verdict)
 │   ├── ar_selftest.py           # Wazuh AR otomatik doğrulama
+│   ├── generate_ir_report.py    # vakalardan otomatik IR raporu üretir
 │   ├── config.example.yaml      # örnek yapılandırma (gerçeğini .gitignore gizler)
 │   ├── requirements.txt
 │   ├── soar.service             # systemd servis birimi

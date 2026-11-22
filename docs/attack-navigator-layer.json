@@ -1,0 +1,96 @@
+{
+  "name": "SOC Home Lab — Tespit Kapsamı",
+  "versions": {
+    "attack": "14",
+    "navigator": "4.9.0",
+    "layer": "4.5"
+  },
+  "domain": "enterprise-attack",
+  "description": "Wazuh SIEM + Python SOAR ev laboratuvarının MITRE ATT&CK tespit kapsamı. Skor = tespit kuralının Wazuh seviyesi.",
+  "sorting": 3,
+  "hideDisabled": true,
+  "techniques": [
+    {
+      "techniqueID": "T1003.001",
+      "score": 12,
+      "comment": "100103 — Credential Dumping: Supheli LSASS bellek erisimi (olasi Mimikatz) [T1003.001]",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1046",
+      "score": 10,
+      "comment": "Wazuh — Network Service Scanning",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1053.005",
+      "score": 10,
+      "comment": "100104 — Persistence: schtasks.exe ile zamanlanmis gorev olusturuldu [T1053.005]",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1059.001",
+      "score": 12,
+      "comment": "100107 — Ingress Tool Transfer: PowerShell/certutil ile uzaktan yuk indirme girisimi [T1105] | 100101 — Encoded PowerShell",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1082",
+      "score": 10,
+      "comment": "100102 — System Information Discovery (recon)",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1098",
+      "score": 12,
+      "comment": "100106 — Account Manipulation: Yeni yerel hesap olusturuldu veya Administrators grubuna eklendi [T1136.001]",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1105",
+      "score": 12,
+      "comment": "100107 — Ingress Tool Transfer: PowerShell/certutil ile uzaktan yuk indirme girisimi [T1105]",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1110",
+      "score": 10,
+      "comment": "Wazuh 5712 — SSH/RDP Brute-Force",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1136.001",
+      "score": 12,
+      "comment": "100106 — Account Manipulation: Yeni yerel hesap olusturuldu veya Administrators grubuna eklendi [T1136.001]",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1562.001",
+      "score": 12,
+      "comment": "100105 — Defense Evasion: Windows Defender devre disi birakildi / kurcalandi [T1562.001]",
+      "enabled": true
+    }
+  ],
+  "gradient": {
+    "colors": [
+      "#fff5f0",
+      "#fb6a4a",
+      "#a50f15"
+    ],
+    "minValue": 1,
+    "maxValue": 12
+  },
+  "legendItems": [
+    {
+      "label": "Düşük seviye tespit",
+      "color": "#fff5f0"
+    },
+    {
+      "label": "Yüksek seviye tespit",
+      "color": "#a50f15"
+    }
+  ],
+  "showTacticRowBackground": true,
+  "tacticRowBackground": "#205b8f",
+  "selectTechniquesAcrossTactics": true
+}

@@ -1,0 +1,54 @@
+name: CI — Detection-as-Code
+
+# Her push ve pull request'te kodu ve tespit varlıklarını doğrular.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.12 kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Araçları yükle
+        run: pip install flake8 pyyaml
+
+      - name: Python sözdizimi (py_compile)
+        run: python -m py_compile soar/*.py
+
+      - name: Lint — kritik hatalar (flake8)
+        run: flake8 soar --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Wazuh kurallarını doğrula (XML)
+        run: |
+          python - <<'PY'
+          import xml.dom.minidom as m
+          m.parse("rules/local_rules.xml")
+          print("rules/local_rules.xml: gecerli XML")
+          PY
+
+      - name: YAML yapılandırmasını doğrula
+        run: |
+          python - <<'PY'
+          import yaml
+          yaml.safe_load(open("soar/config.example.yaml"))
+          print("config.example.yaml: gecerli YAML")
+          PY
+
+      - name: JSON dosyalarını doğrula (dashboard + navigator)
+        run: |
+          python - <<'PY'
+          import json, glob
+          for f in ["dashboards/soc-overview.json"] + glob.glob("docs/*.json"):
+              json.load(open(f, encoding="utf-8"))
+              print(f"{f}: gecerli JSON")
+          PY
